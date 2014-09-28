@@ -29,7 +29,11 @@ class EventsManager
 
 	public function aggregate($type, $granularity = Events::GRANULARITY_HOUR, \DateTime $minDate = NULL, \DateTime $maxDate = NULL)
 	{
-		$pipeline = [];
+		$pipeline	 = [];
+		$time		 = [];
+
+		$query					 = [];
+		$query['$match']['type'] = ['$eq' => $type];
 
 		if (!is_null($minDate) or ! is_null($maxDate)) {
 
@@ -43,12 +47,7 @@ class EventsManager
 				$maxDate->setTime(23, 59, 59);
 				$time['$lte'] = new \MongoDate($maxDate->getTimestamp());
 			}
-
-			$query = [
-				'$match' => [
-					"time" => $time
-				]
-			];
+			$query['$match']['time'] = $time;
 		}
 
 		$project = [
@@ -123,7 +122,7 @@ class EventsManager
 		array_push($pipeline, $project);
 		array_push($pipeline, $group);
 		array_push($pipeline, $sort);
-
+		
 		$data = \Models\Events\Events::aggregate($pipeline);
 		return $data;
 	}

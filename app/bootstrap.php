@@ -16,8 +16,6 @@ if (file_exists($debugSwitchFile)) {
 
 Tracy\Debugger::enable(!$debugMode, __DIR__ . '/../log');
 
-
-
 $config = new \Phalcon\Config\Adapter\Ini(__DIR__ . '/config/config.ini');
 
 $localConfigFile = __DIR__ . '/local/config.local.ini';
@@ -36,7 +34,7 @@ $events = new \Phalcon\Mvc\Micro\Collection;
 $events->setHandler($di->get('eventsController'));
 $events->setPrefix('/events');
 $events->post('/', 'create');
-$events->get('/{type}', 'show');
+$events->get('/{type:[a-z]+}?{query}', 'show');
 
 $app->mount($events);
 
