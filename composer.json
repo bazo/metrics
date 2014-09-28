@@ -1,0 +1,14 @@
+{
+	"name": "vendor/metrics",
+	"description": "Description of project metrics.",
+	"authors": [
+		{
+			"name": "Martin",
+			"email": "your@email.here"
+		}
+	],
+	"require": {
+		"ext-phalcon": "1.3.*",
+		"tracy/tracy": "@dev"
+	}
+}
